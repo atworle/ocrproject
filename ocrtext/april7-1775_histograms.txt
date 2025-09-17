@@ -1,0 +1,6 @@
+Image: april7-1775_histograms.png
+Word count: 97
+Confidence: 87.8% (min: 26, max: 96)
+--------------------------------------------------
+
+Original Gamma Unsharp Histogram - Original Histogram - Hist Eq Histogram - CLAHE Histogram - Gamma Histogram - Unsharp 5000 4 17500 4 40000 + 8000 4 8000 + 15000 4 4000 4 : 30000 + 6000 4 6000 + 12500 3000 + 10000 5 4000 + 4000 + 7500 - 20000 + 2000 + 5000 + 2000 4 2000 4 10000 + 2500 4 o- ) ) ) ) 50 100 150 200 250 ) 50 100 150 200 250 50 100 150 200 250 ) 50 100 150 200 250 ) 50 100 150 200
