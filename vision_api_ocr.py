@@ -74,19 +74,22 @@ def transcribe_with_vision_api(image_path, api_key):
                     "content": [
                         {
                             "type": "text",
-                            "text": """Please transcribe all the text visible in this image. The text may be in any language including English, Spanish, French, German, Chinese, Japanese, Korean, Arabic, Hindi, Tamil, or other languages.
-                            
-                            Instructions:
-                            1. Extract ALL text from the image, preserving the original layout and structure
-                            2. Maintain line breaks and paragraph structure
-                            3. Do not add any commentary or interpretation
-                            4. If text is unclear or partially obscured, transcribe what you can see
-                            5. Preserve original spelling and formatting in the original language
-                            6. Include headers, titles, dates, and all visible text elements
-                            7. If the text is in a non-Latin script (like Arabic, Chinese, Tamil, etc.), transcribe it exactly as written
-                            8. Do not translate the text - only transcribe it
-                            
-                            Return only the transcribed text in its original language."""
+                            "text": """Transcribe all visible text from this historical newspaper image. This is a primary historical source: do not censor, edit, or omit words that may be violent, sensitive, or offensive (for example, transcribe words such as 'killed' exactly as they appear).
+
+Instructions (historical newspaper focus):
+1. Extract ALL text visible on the page, preserving the original layout and structure as closely as possible (headlines, bylines, dates, captions, columns, column breaks, and section headings).
+2. Preserve line breaks and paragraph structure. If the page is in multiple columns, keep the reading order within each column and keep columns separated by a blank line.
+3. Preserve lists exactly as printed (keep bullets, numbers, or other list markers). Do not convert lists into prose.
+4. Preserve original spelling, capitalization, hyphenation, punctuation, and line-end hyphenation. If a word is hyphenated at a line break, preserve the hyphen as printed.
+5. If text is illegible, insert the token [illegible] in place of the unclear segment. If you can make a confident partial reading, include it and mark uncertainty with [?] (e.g., "mara[?]").
+6. Do not translate, interpret, or paraphrase the content. Do not add any commentary, headings, or metadata beyond the exact transcribed text.
+7. For non-Latin scripts, transcribe characters exactly as written. Do not romanize or translate.
+8. Preserve numerical data, dates, prices, and abbreviations exactly as printed.
+
+Anti-repetition rules:
+IMPORTANT: Do not repeat any phrase, sentence, or line more than once unless it is clearly printed that way on the page. If you detect identical text repeated visually on the page, reproduce it exactly. If the same short phrase appears multiple times due to a likely scanning or OCR artifact, transcribe the content once and append a short marker such as " [possible OCR repetition artifact]" immediately after that line. If you are uncertain whether repeated occurrences are genuine, mark them as "[possible duplicate/uncertain]". Never invent additional repetitions beyond what is clearly printed.
+
+Return only the transcribed text, in the original language and layout, with no added explanation or analysis."""
                         },
                         {
                             "type": "image_url",
@@ -97,8 +100,10 @@ def transcribe_with_vision_api(image_path, api_key):
                     ]
                 }
             ],
-            max_tokens=4000,
-            temperature=0.1  # Low temperature for consistent transcription
+            max_tokens=3000,
+            temperature=0.1,  # Low temperature for consistent transcription
+            presence_penalty=0.5,
+            frequency_penalty=0.5
         )
         
         # Extract usage information
