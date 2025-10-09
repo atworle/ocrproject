@@ -41,52 +41,26 @@ def check_dependencies():
         return False
 
 def run_ocr_psm3(image_path, language='eng'):
-    """Run OCR with PSM 3 mode, including upscaling, grayscale, and adaptive thresholding."""
+    """Run OCR with simple grayscale + binary thresholding (cleaner for historical prints)."""
     try:
         import pytesseract
-        import cv2
-        from PIL import Image
-        import numpy as np
+        from PIL import Image, ImageEnhance, ImageFilter
 
-        # Load image
-        img_cv = cv2.imread(str(image_path))
+        # Load and preprocess
+        img = Image.open(image_path).convert('L')  # grayscale
+        img = img.filter(ImageFilter.MedianFilter())  # light denoise
+        img = ImageEnhance.Contrast(img).enhance(2)  # boost contrast
 
-        # Upscale (2-4x depending on size)
-        scale_factor = 3
-        img_large = cv2.resize(img_cv, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_CUBIC)
+        # Simple binary threshold — crucial for faint 18th-c. type
+        bw = img.point(lambda x: 0 if x < 160 else 255, '1')
 
-        # Convert to grayscale
-        gray = cv2.cvtColor(img_large, cv2.COLOR_BGR2GRAY)
-
-        # Optional: histogram equalization or CLAHE for contrast
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        gray = clahe.apply(gray)
-
-        kernel = np.array([[0,-0.5,0], [-0.5,3,-0.5], [0,-0.5,0]])
-
-        gray = cv2.filter2D(gray, -1, kernel)
-
-        # Adaptive thresholding to binarize
-        thresh = cv2.adaptiveThreshold(
-            gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-            cv2.THRESH_BINARY, 25, 3
-        )
-
-        # Optional: denoise (median filter)
-        processed = cv2.medianBlur(thresh, 3)
-
-        # Convert to PIL Image
-        image = Image.fromarray(processed)
-
-        # Configure Tesseract
+        # OCR config: OEM 3 (LSTM), PSM 6 (block of text)
         config = f'--oem 3 --psm 6 -l {language}'
+        text = pytesseract.image_to_string(bw, config=config)
 
-        # Run OCR
-        text = pytesseract.image_to_string(image, config=config)
-
-        # Get confidence data
+        # Optional confidence extraction
         try:
-            data = pytesseract.image_to_data(image, config=config, output_type=pytesseract.Output.DICT)
+            data = pytesseract.image_to_data(bw, config=config, output_type=pytesseract.Output.DICT)
         except Exception:
             data = {'conf': []}
 
@@ -95,6 +69,7 @@ def run_ocr_psm3(image_path, language='eng'):
     except Exception as e:
         print(f"❌ Error running OCR: {str(e)}")
         return None, None
+
 
 def analyze_confidence(data):
     """Analyze OCR confidence scores."""
