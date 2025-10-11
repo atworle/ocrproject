@@ -33,4 +33,87 @@
     "france": 0,
     "french": 22
   }
+  ,
+  "original_ocr": {
+    "total_words": 4187,
+    "unique_words": 1315,
+    "keyword_counts": {
+      "liberty": 3,
+      "freedom": 1,
+      "rights": 0,
+      "king": 3,
+      "france": 1,
+      "french": 25
+    },
+    "spell_check": {
+      "total_unique_words": 1315,
+      "misspelled_count": 282,
+      "misspelled_samples": [
+        "pell",
+        "tr",
+        "firft",
+        "cabbin",
+        "ashfield",
+        "blakeney",
+        "i'rench",
+        "thro",
+        "ot",
+        "ufeful"
+      ],
+      "suggestions": {
+        "pell": ["peel", "pelt", "pill", "fell", "jell"],
+        "tr": ["br", "lr", "tc", "tb", "th"],
+        "firft": ["first"],
+        "cabbin": ["rabbin", "cabbie", "cabbing", "cabin"],
+        "ashfield": ["afield", "shield", "airfield", "masefield"],
+        "blakeney": ["blarney", "blackener", "blackened"],
+        "i'rench": ["french", "wrench", "drench", "trench", "intrench"],
+        "thro": ["tyro", "taro", "tho", "thru", "tiro"],
+        "ot": ["st", "out", "lot", "tot", "pt"],
+        "ufeful": ["useful"]
+      }
+    }
+  }
+  ,
+  "all_vision": {
+    "total_words": 8254,
+    "unique_words": 1874,
+    "keyword_counts": {
+      "liberty": 5,
+      "freedom": 1,
+      "rights": 0,
+      "king": 3,
+      "france": 1,
+      "french": 47
+    },
+    "spell_check": {
+      "total_unique_words": 1874,
+      "misspelled_count": 198,
+      "misspelled_samples": [
+        "cyder",
+        "vol",
+        "o'",
+        "ashfield",
+        "arriv'd",
+        "ocr",
+        "fogg",
+        "peill",
+        "fogeaux",
+        "fowle"
+      ],
+      "suggestions": {
+        "cyder": ["ceder", "coder", "cider", "ryder"],
+        "vol": ["vul", "volt", "vow", "pol", "voe"],
+        "o'": ["oh", "of", "oi", "oo", "oe"],
+        "ashfield": ["airfield", "shield", "masefield", "afield"],
+        "arriv'd": ["arrived"],
+        "ocr": ["oar", "cr", "cor", "oc", "our"],
+        "fogg": ["foggy", "fogy", "fogs", "hogg", "fog"],
+        "peill": ["pill", "weill"],
+        "fogeaux": [],
+        "fowle": ["fowls", "fowl", "fowled", "fowler", "fowles"]
+      }
+    }
+  }
 }
+

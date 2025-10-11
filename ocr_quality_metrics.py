@@ -72,7 +72,17 @@ def spell_check(tokens: List[str], max_suggestions=10):
 
     freq = Counter(tokens)
     miss_freq = sorted(misspelled, key=lambda w: -freq[w])
-    suggestions = {w: list(spell.candidates(w))[:5] for w in miss_freq[:max_suggestions]}
+    suggestions = {}
+    for w in miss_freq[:max_suggestions]:
+        try:
+            cands = spell.candidates(w)
+            # candidates() may return None in some environments; guard against that
+            if cands is None:
+                suggestions[w] = []
+            else:
+                suggestions[w] = list(cands)[:5]
+        except Exception:
+            suggestions[w] = []
 
     return {
         "total_unique_words": len(unique_words),
